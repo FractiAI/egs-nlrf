@@ -5,6 +5,6 @@ cd "$(dirname "$0")"
 source .venv/bin/activate
 pip install -q -r requirements_lock.txt
 export PYTHONPATH="$(pwd)/src/python"
-python tools/fetch_hydrogen_data.py --demo
+python tools/fetch_hydrogen_data.py
 python tools/verify_audit.py
 echo "=== EGS-NLRF PIPELINE COMPLETE ==="

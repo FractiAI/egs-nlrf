@@ -8,10 +8,10 @@ The **EGS Nodal Lattice Resonator Framework (EGS-NLRF)** is an exploratory model
 
 1. Preserves all standard QED predictions when corrections vanish (α_Φ → 0).
 2. Maps hydrogen observables onto a Φ-lattice coordinate system.
-3. Runs permutation tests, χ², AIC/BIC, and explicit falsification checks.
+3. Runs permutation tests, χ², AIC/BIC, and explicit falsification checks against **recognized public spectroscopic data**.
 4. Ships as a reproducible SynthOBS empirical engine anyone can run.
 
-This repository is the **hypothesis-generation platform** described in Version 4.0 of the submission draft. Treat all positive findings on demo data as pipeline verification, not physical discovery.
+This repository is the **hypothesis-generation platform** described in Version 4.0 of the submission draft. Empirical runs use **live NIST Atomic Spectra Database (ASD) v5.11** Balmer transitions by default. Positive lattice-structure p-values on uncorrected Rydberg residuals should be interpreted as **pipeline sensitivity checks**, not physical confirmation of EGS corrections.
 
 ---
 
@@ -21,18 +21,20 @@ We present EGS-NLRF: a tri-domain architecture connecting informational boundary
 
 **Experimental Data → Lattice Mapping → Topology Solver → Quantum Correction Engine → Statistical Validation**
 
-**Key findings from this implementation:**
+**Empirical findings (NIST ASD H I Balmer series, live fetch, n = 3…15):**
 
-| Finding | What it means |
-|---------|---------------|
-| **QED limit recovered** | α_Φ = 0 reproduces standard Rydberg transitions exactly |
-| **Appendix A implemented** | δV_Φ(r) lattice potential on a₀Φ^n radii |
-| **Appendix B implemented** | Aharonov–Bohm phase functional on Φ^m boundaries |
-| **Appendix D implemented** | log-Φ coordinates, permutation test, AIC/BIC |
-| **Falsification wired** | Section 9 criteria evaluated in `audit_ledger.json` |
-| **Honesty boundary** | Framework flagged `hypothesis_generation_mode: true` |
+| Finding | Result | Interpretation |
+|---------|--------|----------------|
+| **Public data ingest** | 13 transitions from [NIST ASD v5.11](https://doi.org/10.18434/T4W30F) (H I, principal 2→n) | Recognized public spectroscopic reference — not synthetic demo |
+| **QED baseline** | CODATA 2018 reduced-mass Rydberg (R_H = 109677.58 cm⁻¹) | Standard Ĥ₀ limit; α_Φ = 0 unchanged |
+| **Residual structure** | RMS(obs − theory) = **0.210 cm⁻¹**; mean = **0.209 cm⁻¹** | Expected gap from fine structure / level-envelope effects not in bare Rydberg formula |
+| **Goodness of fit** | χ² = **9.55** (13 lines, dof ≈ 12, χ²/dof ≈ **0.73**) | Baseline adequate at NIST AAA relative uncertainty (~10⁻⁵) |
+| **EGS correction scan** | χ² unchanged across α_Φ ∈ {0, 10⁻⁶, 10⁻⁵, 10⁻⁴} | Exploratory Ĥ_Φ does not improve fit at tested couplings |
+| **Permutation test** | p ≈ **0.002** (500 iterations) | Likely **n-dependent systematic** correlation with log-Φ coordinates — not standalone EGS evidence |
+| **Model selection** | AIC/BIC favor QED (1 param) over EGS (2 param) | Parsimony supports standard baseline |
+| **Falsification ledger** | `framework_rejected: false`, `hypothesis_generation_mode: true` | Platform operational; theory not validated |
 
-Full treatment: [`paper/EGS_NLRF.md`](paper/EGS_NLRF.md)
+Full treatment: [`paper/EGS_NLRF.md`](paper/EGS_NLRF.md) · Audit ledger: `raw_outputs/audit_ledger.json`
 
 ---
 
@@ -46,21 +48,22 @@ A model postulate ≈ 1.618. Not derived from first principles in this repo — 
 - **Magnetic topology** — intermediate B-field representation layer  
 - **Quantum domain** — standard Ĥψ = Eψ plus optional exploratory Ĥ_Φ  
 
-**Hydrogen reference system**  
-Spectroscopic transitions, hyperfine proxies, Lamb-shift proxies, Rydberg series — demo data is NIST-style synthetic; replace with real ASD exports for production tests.
+**Hydrogen reference system (empirical)**  
+Balmer principal transitions **2 → n** (n = 3…15) from **NIST ASD v5.11** (DOI [10.18434/T4W30F](https://doi.org/10.18434/T4W30F)). Theory baseline: **CODATA 2018** reduced-mass Rydberg formula. Bundled offline copy: `data/reference/nist_asd_balmer_principal.json`.
 
 **Ĥ = Ĥ₀ + α_Φ Ô_Φ**  
-When α_Φ → 0, all standard predictions return. α_Φ ≠ 0 is an experimental question.
+When α_Φ → 0, all standard predictions return. Whether α_Φ ≠ 0 is an experimental question — current empirical scan shows no χ² improvement.
 
 **Statistical pipeline**  
-Residuals R_i = ν_obs − ν_theory mapped to x_i = ln(ν_theory) / ln Φ. Permutation test detects spurious lattice clustering. Multiple-testing discipline required.
+Residuals R_i = ν_obs − ν_theory mapped to x_i = ln(ν_theory) / ln Φ. Permutation test probes lattice clustering; **detrending or full QED theory** is required before scientific claims (see honesty boundary).
 
 **Falsification**  
 The framework is rejected if residuals show no structure, magnetic effects fail replication, or QED alone suffices. The audit ledger reports these flags explicitly.
 
 **What you get when you run the pipeline**  
-- `data/spectra/hydrogen_transitions.csv` — transition dataset  
-- `raw_outputs/audit_ledger.json` — χ², AIC/BIC, permutation p-value, falsification flags  
+- `data/spectra/hydrogen_transitions.csv` — NIST Balmer dataset with QED baseline column  
+- `raw_outputs/fetch_manifest.json` — data provenance (live/offline/demo)  
+- `raw_outputs/audit_ledger.json` — χ², AIC/BIC, permutation p-value, empirical residuals, falsification flags  
 
 ---
 
@@ -68,6 +71,7 @@ The framework is rejected if residuals show no structure, magnetic effects fail 
 
 **GitHub:** [github.com/FractiAI/egs-nlrf](https://github.com/FractiAI/egs-nlrf)  
 **Paper:** [`paper/EGS_NLRF.md`](paper/EGS_NLRF.md)  
+**NIST ASD:** [doi.org/10.18434/T4W30F](https://doi.org/10.18434/T4W30F)  
 **License:** MIT
 
 ---
@@ -75,11 +79,11 @@ The framework is rejected if residuals show no structure, magnetic effects fail 
 ## What this repo contains
 
 - **SynthOBSEmpiricalEngine** — full Version 4.0 pipeline (`egs_nlrf/engine.py`)
+- **NIST ASD ingest** — live Balmer fetch + offline reference (`egs_nlrf/nist.py`)
 - **Lattice potential** — Appendix A δV_Φ(r) (`egs_nlrf/lattice.py`)
 - **Magnetic phase** — Appendix B Aharonov–Bohm functional (`egs_nlrf/magnetic.py`)
-- **Quantum corrections** — Rydberg baseline + α_Φ term (`egs_nlrf/hamiltonian.py`)
+- **Quantum corrections** — CODATA Rydberg + α_Φ term (`egs_nlrf/hamiltonian.py`)
 - **Statistics** — χ², permutation, AIC/BIC, log-Φ coordinates (`egs_nlrf/statistics.py`)
-- **Hydrogen data** — synthetic NIST-style ingest (`tools/fetch_hydrogen_data.py`)
 - **Audit + falsification** — Section 9 criteria (`tools/verify_audit.py`)
 
 ---
@@ -111,17 +115,27 @@ docker run --rm -v "$(pwd)":/workspace egs-nlrf:v1
 ## Full pipeline
 
 ```bash
+# Default: live NIST ASD fetch (requires network)
+python tools/fetch_hydrogen_data.py
+
+# Offline bundled NIST reference (no network)
+python tools/fetch_hydrogen_data.py --offline
+
+# Synthetic smoke test only
 python tools/fetch_hydrogen_data.py --demo
+
 python tools/verify_audit.py
 ```
 
-**Outputs:** `raw_outputs/audit_ledger.json`
+**Outputs:** `raw_outputs/audit_ledger.json`, `raw_outputs/fetch_manifest.json`
 
 **Useful flags:**
 
 | Flag | Effect |
 |------|--------|
-| `--demo` | Synthetic hydrogen transitions (default) |
+| *(default)* | Live NIST ASD Balmer ingest |
+| `--offline` | Bundled NIST reference JSON |
+| `--demo` | Synthetic transitions (smoke test only) |
 | `--permutations N` | Monte Carlo permutation iterations (default 500) |
 
 Locked parameters: [`manifests/hydrogen_reference.json`](manifests/hydrogen_reference.json)
@@ -133,16 +147,14 @@ Locked parameters: [`manifests/hydrogen_reference.json`](manifests/hydrogen_refe
 | Path | Purpose |
 |------|---------|
 | `paper/EGS_NLRF.md` | Manuscript (v4.0) |
-| `paper/reference_tables.json` | Hypothesis + falsification metadata |
-| `manifests/hydrogen_reference.json` | Φ_EGS, α scan, observables |
+| `paper/reference_tables.json` | Hypothesis + empirical summary |
+| `data/reference/nist_asd_balmer_principal.json` | Offline NIST Balmer reference |
+| `manifests/hydrogen_reference.json` | Φ_EGS, α scan, NIST range |
+| `src/python/egs_nlrf/nist.py` | NIST ASD live fetch + parser |
 | `src/python/egs_nlrf/engine.py` | SynthOBSEmpiricalEngine |
-| `src/python/egs_nlrf/lattice.py` | Boundary-lattice potential |
-| `src/python/egs_nlrf/magnetic.py` | Topology phase functional |
-| `src/python/egs_nlrf/hamiltonian.py` | H₀ + H_Φ corrections |
-| `src/python/egs_nlrf/statistics.py` | Permutation, AIC/BIC |
-| `tools/fetch_hydrogen_data.py` | Spectra ingest / demo |
-| `tools/verify_audit.py` | Experiments + falsification ledger |
-| `VALIDATION.md` | Smoke-test notes |
+| `tools/fetch_hydrogen_data.py` | NIST / offline / demo ingest |
+| `tools/verify_audit.py` | Empirical experiments + audit ledger |
+| `VALIDATION.md` | Validation notes |
 
 ---
 
@@ -157,8 +169,10 @@ Locked parameters: [`manifests/hydrogen_reference.json`](manifests/hydrogen_refe
 }
 ```
 
+NIST data citation: Kramida et al., NIST ASD v5.11, DOI 10.18434/T4W30F.
+
 ---
 
 ## Honesty boundary
 
-This framework is **speculative**. Demo synthetic data validates pipeline mechanics only. Positive lattice-structure p-values on synthetic injected residuals do not constitute experimental confirmation. Replace `data/spectra/` with NIST ASD and EXFOR exports before any scientific claims.
+This framework is **speculative**. The empirical pipeline **does** execute on recognized **NIST ASD public data** with a **CODATA Rydberg QED baseline**. Residuals ~0.21 cm⁻¹ are consistent with known fine-structure and level-envelope effects — not evidence for Φ-lattice physics. The permutation test can flag **systematic n-dependent drift** as significant; do not treat p ≈ 0.002 as experimental confirmation without detrending and full QED comparison. Use `--demo` only for mechanical smoke tests.

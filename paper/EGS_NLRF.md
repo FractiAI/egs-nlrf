@@ -16,6 +16,9 @@ The framework introduces **Φ_EGS ≈ 1.618** (El Gran Sol's Fractal Constant) a
 
 Hydrogen is the reference system. Standard QED is preserved when H_Φ → 0. Explicit falsification criteria are provided. **At present this is a hypothesis-generation platform, not a validated physical theory.**
 
+**Empirical results (this repository, NIST ASD v5.11 live ingest):**  
+13 H I Balmer transitions (principal 2→n, n=3…15) from NIST ASD (DOI 10.18434/T4W30F) compared against CODATA 2018 reduced-mass Rydberg baseline. RMS residual = 0.210 cm⁻¹; χ² = 9.55 (χ²/dof ≈ 0.73). Exploratory α_Φ corrections do not improve χ² at tested couplings. Permutation test p ≈ 0.002 likely reflects n-dependent systematic structure in bare-Rydberg residuals, not validated Φ-lattice organization.
+
 ---
 
 ## Tri-Domain Architecture
@@ -66,7 +69,8 @@ x_i = ln(ν_theory,i) / ln Φ_EGS
 ## Reproducibility
 
 ```bash
-python tools/fetch_hydrogen_data.py --demo
+python tools/fetch_hydrogen_data.py          # live NIST ASD (default)
+python tools/fetch_hydrogen_data.py --offline  # bundled NIST reference
 python tools/verify_audit.py
 ```
 

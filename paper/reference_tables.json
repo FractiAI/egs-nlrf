@@ -6,6 +6,20 @@
     "H0": "Residuals explained by known physics and measurement uncertainty",
     "H1": "Residuals contain geometric organization at Phi^n intervals"
   },
+  "empirical_results": {
+    "data_source": "NIST Atomic Spectra Database v5.11",
+    "doi": "10.18434/T4W30F",
+    "spectrum": "H I Balmer principal (2 -> n)",
+    "n_transitions": 13,
+    "n_range": [3, 15],
+    "theory_baseline": "CODATA 2018 reduced-mass Rydberg",
+    "rms_residual_cm": 0.210,
+    "chi2_qed": 9.55,
+    "chi2_per_dof": 0.73,
+    "permutation_p": 0.002,
+    "egs_improves_chi2": false,
+    "fetch_mode": "live"
+  },
   "falsification_criteria": [
     "No statistically significant structured behavior in large-scale residuals",
     "Magnetic-topology effects fail independent replication",

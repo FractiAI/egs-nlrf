@@ -14,9 +14,16 @@
     "lamb_shift_proxy",
     "rydberg_series"
   ],
+  "nist_n_min": 3,
+  "nist_n_max": 15,
   "data_sources": {
-    "nist_asd": "NIST Atomic Spectra Database v5.11 (demo synthetic)",
-    "exfor": "IAEA EXFOR (demo synthetic fusion cross-section)"
+    "nist_asd": {
+      "name": "NIST Atomic Spectra Database v5.11",
+      "doi": "10.18434/T4W30F",
+      "spectrum": "H I Balmer (principal 2 -> n)",
+      "theory_baseline": "CODATA 2018 reduced-mass Rydberg constant"
+    },
+    "exfor": "IAEA EXFOR (planned fusion cross-section extension)"
   },
   "falsification": {
     "reject_if_no_lattice_structure": true,

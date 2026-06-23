@@ -44,11 +44,24 @@ class SynthOBSEmpiricalEngine:
         self.phi = phi_egs
         self.rng = np.random.default_rng(seed)
         self.seed = seed
+        self._n_upper: np.ndarray | None = None
 
     def load_data(self, csv_path: Path | None = None):
         if csv_path and csv_path.exists():
-            return load_spectra_csv(csv_path)
-        return synthesize_hydrogen_transitions(seed=self.seed, alpha_phi=1e-5, phi=self.phi)
+            obs, theory, err, n_upper = load_spectra_csv(csv_path)
+            if n_upper is not None:
+                self._n_upper = n_upper
+            return obs, theory, err
+        return synthesize_hydrogen_transitions(seed=self.seed, alpha_phi=1e-5, phi=self.phi)[:3]
+
+    def _n_upper_from_data(self, csv_path: Path | None, n_obs: int, n_lower: int = 2) -> np.ndarray:
+        if hasattr(self, "_n_upper") and self._n_upper is not None and len(self._n_upper) == n_obs:
+            return self._n_upper
+        if csv_path and csv_path.exists():
+            _, _, _, n_upper = load_spectra_csv(csv_path)
+            if n_upper is not None:
+                return n_upper
+        return np.arange(n_lower + 1, n_lower + 1 + n_obs)
 
     def calculate_chi2(self, obs, theory, error) -> float:
         if len(obs) == 0:
@@ -82,11 +95,11 @@ class SynthOBSEmpiricalEngine:
     ) -> PipelineResult:
         obs, theory_qed, error = self.load_data(csv_path)
 
-        # EGS-corrected theory
         n_lower = 2
+        n_upper_arr = self._n_upper_from_data(csv_path, len(obs), n_lower)
         theory_egs = np.array([
-            corrected_transition_cm(n, n_lower, alpha_phi, self.phi)
-            for n in range(n_lower + 1, n_lower + 1 + len(obs))
+            corrected_transition_cm(int(n), n_lower, alpha_phi, self.phi)
+            for n in n_upper_arr
         ])
 
         residuals = obs - theory_qed

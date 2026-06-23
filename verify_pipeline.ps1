@@ -8,6 +8,6 @@ if (-not (Test-Path ".venv\Scripts\python.exe")) {
 }
 $env:PYTHONPATH = "$Root\src\python"
 $py = ".\.venv\Scripts\python.exe"
-& $py tools\fetch_hydrogen_data.py --demo
+& $py tools\fetch_hydrogen_data.py
 & $py tools\verify_audit.py
 Write-Host "=== EGS-NLRF PIPELINE COMPLETE ==="

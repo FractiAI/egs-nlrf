@@ -1,0 +1,26 @@
+{
+  "metadata": {
+    "source": "NIST Atomic Spectra Database",
+    "version": "5.11",
+    "doi": "10.18434/T4W30F",
+    "last_update": "November 2024",
+    "spectrum": "H I",
+    "series": "Balmer (principal quantum number 2 -> n)",
+    "citation": "Kramida A., Ralchenko Yu., Reader J., and NIST ASD Team (2024). NIST Atomic Spectra Database (ver. 5.11), National Institute of Standards and Technology, Gaithersburg, MD."
+  },
+  "transitions": [
+    {"n_upper": 3, "observed_cm": 15233.21, "error_cm": 0.15, "accuracy": "AAA"},
+    {"n_upper": 4, "observed_cm": 20564.67, "error_cm": 0.21, "accuracy": "AAA"},
+    {"n_upper": 5, "observed_cm": 23032.49, "error_cm": 0.23, "accuracy": "AAA"},
+    {"n_upper": 6, "observed_cm": 24373.05, "error_cm": 0.24, "accuracy": "AAA"},
+    {"n_upper": 7, "observed_cm": 25181.32, "error_cm": 0.25, "accuracy": "AAA"},
+    {"n_upper": 8, "observed_cm": 25705.84, "error_cm": 0.26, "accuracy": "AAA"},
+    {"n_upper": 9, "observed_cm": 26065.53, "error_cm": 0.26, "accuracy": "AAA"},
+    {"n_upper": 10, "observed_cm": 26322.80, "error_cm": 0.26, "accuracy": "AAA"},
+    {"n_upper": 11, "observed_cm": 26513.21, "error_cm": 0.27, "accuracy": "AAA"},
+    {"n_upper": 12, "observed_cm": 26658.02, "error_cm": 0.27, "accuracy": "AAA"},
+    {"n_upper": 13, "observed_cm": 26770.67, "error_cm": 0.27, "accuracy": "AAA"},
+    {"n_upper": 14, "observed_cm": 26860.03, "error_cm": 0.27, "accuracy": "AAA"},
+    {"n_upper": 15, "observed_cm": 26932.15, "error_cm": 0.27, "accuracy": "AAA"}
+  ]
+}

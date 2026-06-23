@@ -14,6 +14,7 @@ sys.path.insert(0, str(ROOT / "src" / "python"))
 
 from egs_nlrf.data import load_manifest  # noqa: E402
 from egs_nlrf.engine import SynthOBSEmpiricalEngine  # noqa: E402
+import numpy as np  # noqa: E402
 
 
 def main() -> None:
@@ -30,6 +31,23 @@ def main() -> None:
     csv_path = ROOT / "data" / "spectra" / "hydrogen_transitions.csv"
 
     engine = SynthOBSEmpiricalEngine(phi_egs=phi, seed=seed)
+
+    fetch_meta_path = ROOT / "raw_outputs" / "fetch_manifest.json"
+    fetch_meta = {}
+    if fetch_meta_path.exists():
+        fetch_meta = json.loads(fetch_meta_path.read_text(encoding="utf-8"))
+
+    obs, theory_qed, error = engine.load_data(csv_path)
+    residuals = obs - theory_qed
+    empirical = {
+        "data_source": fetch_meta.get("source", "unknown"),
+        "fetch_mode": fetch_meta.get("fetch_mode", fetch_meta.get("mode", "unknown")),
+        "n_transitions": len(obs),
+        "mean_residual_cm": round(float(np.mean(residuals)), 6),
+        "rms_residual_cm": round(float(np.sqrt(np.mean(residuals ** 2))), 6),
+        "max_abs_residual_cm": round(float(np.max(np.abs(residuals))), 6),
+        "nist_doi": fetch_meta.get("doi", "10.18434/T4W30F"),
+    }
 
     alpha_scan = {}
     for alpha in manifest.get("alpha_phi_scan", [0.0, 1e-6, 1e-5, 1e-4]):
@@ -65,6 +83,7 @@ def main() -> None:
         "framework": "EGS-NLRF v4.0",
         "phi_egs": phi,
         "pipeline": "Data -> Lattice Mapping -> Topology Solver -> Quantum Correction -> Statistical Validation",
+        "empirical_data": empirical,
         "primary_run": {
             "alpha_phi": best_alpha,
             "chi2_qed": round(primary.chi2_qed, 4),
@@ -84,11 +103,14 @@ def main() -> None:
     out.write_text(json.dumps(audit, indent=2), encoding="utf-8")
 
     print("=== EGS-NLRF Audit Ledger ===")
+    print(f"Data: {empirical['data_source']} ({empirical['fetch_mode']})")
     print(f"Phi_EGS: {phi}")
+    print(f"N transitions: {empirical['n_transitions']}")
+    print(f"RMS residual (obs - QED): {empirical['rms_residual_cm']} cm-1")
     print(f"chi2 QED: {audit['primary_run']['chi2_qed']}")
     print(f"chi2 EGS: {audit['primary_run']['chi2_egs']}")
     print(f"Permutation p: {audit['primary_run']['permutation']['p_value']}")
-    print(f"Framework rejected (demo): {falsification['framework_rejected']}")
+    print(f"Framework rejected: {falsification['framework_rejected']}")
     print(f"Audit -> {out}")
 
 
