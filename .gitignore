@@ -3,4 +3,5 @@ __pycache__/
 data/spectra/*.csv
 !data/spectra/.gitkeep
 raw_outputs/*.json
+raw_outputs/*.txt
 !raw_outputs/.gitkeep
