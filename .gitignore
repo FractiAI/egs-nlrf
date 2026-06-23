@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+data/spectra/*.csv
+!data/spectra/.gitkeep
+raw_outputs/*.json
+!raw_outputs/.gitkeep

@@ -1,0 +1,4 @@
+# EGS-NLRF pipeline — see README.md
+
+python tools/fetch_hydrogen_data.py --demo
+python tools/verify_audit.py

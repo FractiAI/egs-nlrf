@@ -1,0 +1,26 @@
+{
+  "framework": "EGS Nodal Lattice Resonator Framework",
+  "version": "4.0",
+  "phi_egs": 1.618033988749895,
+  "a0_bohr_angstrom": 0.529177210903,
+  "alpha_phi_default": 0.0,
+  "alpha_phi_scan": [0.0, 1e-6, 1e-5, 1e-4],
+  "seed": 42,
+  "permutation_iterations": 1000,
+  "significance_alpha": 0.05,
+  "observables": [
+    "spectroscopic_transitions",
+    "hyperfine_structure",
+    "lamb_shift_proxy",
+    "rydberg_series"
+  ],
+  "data_sources": {
+    "nist_asd": "NIST Atomic Spectra Database v5.11 (demo synthetic)",
+    "exfor": "IAEA EXFOR (demo synthetic fusion cross-section)"
+  },
+  "falsification": {
+    "reject_if_no_lattice_structure": true,
+    "reject_if_chi2_qed_sufficient": true,
+    "min_permutation_p_value": 0.05
+  }
+}
