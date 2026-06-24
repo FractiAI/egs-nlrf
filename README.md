@@ -173,6 +173,16 @@ NIST data citation: Kramida et al., NIST ASD v5.11, DOI 10.18434/T4W30F.
 
 ---
 
+## Recursive attention loop anchor (June 2026)
+
+**Synthesis whitepaper:** [WP-2026-ATTENTION-RECURSIVE-LOOP](https://www.ssvibelandiaquestfest24x365.com/whitepaper/recursive-attention-loop) · Catalog: [FractiAI/psw.vibelandia.sing13](https://github.com/FractiAI/psw.vibelandia.sing13)
+
+This repository is the **`quantum_hydrogen`** structural anchor in the cross-scale attention map. **Causality validation tier:** `causal_support_preliminary` (QED baseline beats EGS Φ-null on NIST Balmer actuals).
+
+Integrated loop validation: `npm run research:recursive-attention-causality` in the catalog repo → `research/recursive-attention-causality/output/causality_validation_report.json`.
+
+---
+
 ## Honesty boundary
 
 This framework is **speculative**. The empirical pipeline **does** execute on recognized **NIST ASD public data** with a **CODATA Rydberg QED baseline**. Residuals ~0.21 cm⁻¹ are consistent with known fine-structure and level-envelope effects — not evidence for Φ-lattice physics. The permutation test can flag **systematic n-dependent drift** as significant; do not treat p ≈ 0.002 as experimental confirmation without detrending and full QED comparison. Use `--demo` only for mechanical smoke tests.
